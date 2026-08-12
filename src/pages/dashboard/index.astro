@@ -1,0 +1,203 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DashboardShell from '../../components/DashboardShell.tsx';
+
+const pathname = Astro.url.pathname;
+---
+
+<Layout title="Dashboard — Tu Pega!">
+  <DashboardShell
+    client:load
+    pathname={pathname}
+    pageTitle="Dashboard"
+    pageSubtitle="Resumen general de tu campaña en tiempo real."
+  >
+    <div class="db-grid">
+      <!-- STAT CARDS -->
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--purple">✉️</div>
+        <div>
+          <p class="stat-label">Correos enviados</p>
+          <p class="stat-val">2,761</p>
+          <p class="stat-delta stat-delta--up">↑ 12% esta semana</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--teal">💬</div>
+        <div>
+          <p class="stat-label">Respuestas recibidas</p>
+          <p class="stat-val">84</p>
+          <p class="stat-delta stat-delta--up">↑ 8 nuevas hoy</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--orange">⚠️</div>
+        <div>
+          <p class="stat-label">Rebotes</p>
+          <p class="stat-val">127</p>
+          <p class="stat-delta stat-delta--down">4.6% de rebote</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--green">✅</div>
+        <div>
+          <p class="stat-label">Tasa de entrega</p>
+          <p class="stat-val">95.4%</p>
+          <p class="stat-delta stat-delta--up">↑ 0.8% vs ayer</p>
+        </div>
+      </div>
+
+      <!-- CAMPAIGN STATUS -->
+      <div class="panel panel--wide">
+        <div class="panel-header">
+          <h2 class="panel-title">Campaña activa</h2>
+          <span class="badge-live">● En vivo</span>
+        </div>
+        <div class="campaign-bar-wrap">
+          <div class="campaign-bar-labels">
+            <span>Enviados</span><span>2,761 / 3,000</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 92%"></div>
+          </div>
+        </div>
+        <div class="campaign-meta">
+          <div class="meta-item"><span class="meta-key">Inicio</span><span class="meta-val">8 Ago 2026</span></div>
+          <div class="meta-item"><span class="meta-key">Límite diario</span><span class="meta-val">100 correos</span></div>
+          <div class="meta-item"><span class="meta-key">Pendientes</span><span class="meta-val">239</span></div>
+          <div class="meta-item"><span class="meta-key">Estado</span><span class="badge-status">Activa</span></div>
+        </div>
+        <div class="panel-actions">
+          <a href="/dashboard/campanas" class="btn-primary-sm">Ver campaña completa →</a>
+          <button class="btn-ghost-sm">Pausar envío</button>
+        </div>
+      </div>
+
+      <!-- RECENT REPLIES -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Respuestas recientes</h2>
+          <a href="/dashboard/respuestas" class="panel-link">Ver todas →</a>
+        </div>
+        <div class="reply-list">
+          {[
+            { co: "Minera Los Pelambres", msg: "Gracias por tu postulación, nos pondremos en contacto...", time: "hace 2h", hot: true },
+            { co: "Codelco División Andina", msg: "Hemos recibido tu CV y lo evaluaremos próximamente.", time: "hace 5h", hot: false },
+            { co: "BHP Chile", msg: "Estamos interesados en tu perfil, ¿podemos agendar una llamada?", time: "ayer", hot: true },
+            { co: "Anglo American Sur", msg: "Tu experiencia es de interés para nuestra organización.", time: "ayer", hot: false },
+          ].map((r) => (
+            <div class="reply-item">
+              <div class="reply-avatar">{r.co[0]}</div>
+              <div class="reply-body">
+                <div class="reply-top">
+                  <span class="reply-co">{r.co}</span>
+                  {r.hot && <span class="reply-hot">🔥 Caliente</span>}
+                  <span class="reply-time">{r.time}</span>
+                </div>
+                <p class="reply-msg">{r.msg}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="panel">
+        <h2 class="panel-title" style="margin-bottom:1rem">Acciones rápidas</h2>
+        <div class="quick-actions">
+          <a href="/dashboard/campanas" class="qa-btn">
+            <span class="qa-icon">🚀</span>
+            <span>Nueva campaña</span>
+          </a>
+          <a href="/dashboard/contactos" class="qa-btn">
+            <span class="qa-icon">➕</span>
+            <span>Importar contactos</span>
+          </a>
+          <a href="/dashboard/enviados" class="qa-btn">
+            <span class="qa-icon">📊</span>
+            <span>Ver estadísticas</span>
+          </a>
+          <a href="/dashboard/configuracion" class="qa-btn">
+            <span class="qa-icon">⚙️</span>
+            <span>Configurar cuenta</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </DashboardShell>
+</Layout>
+
+<style>
+  .db-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 1100px) { .db-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .db-grid { grid-template-columns: 1fr; } }
+
+  /* Stat cards */
+  .stat-card {
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 14px;
+    padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem;
+    transition: box-shadow 0.2s;
+  }
+  .stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .stat-icon--purple { background: rgba(108,71,255,0.1); }
+  .stat-icon--teal { background: rgba(0,212,170,0.1); }
+  .stat-icon--orange { background: rgba(255,100,50,0.1); }
+  .stat-icon--green { background: rgba(16,185,129,0.1); }
+  .stat-label { font-size: 0.75rem; color: #6b7280; font-weight: 500; }
+  .stat-val { font-size: 1.75rem; font-weight: 800; color: #111827; font-family: 'Space Grotesk', sans-serif; line-height: 1.2; }
+  .stat-delta { font-size: 0.75rem; margin-top: 0.2rem; }
+  .stat-delta--up { color: #10b981; }
+  .stat-delta--down { color: #f59e0b; }
+
+  /* Panels */
+  .panel {
+    grid-column: span 2; background: #fff; border: 1px solid #e5e7eb;
+    border-radius: 14px; padding: 1.5rem;
+  }
+  .panel--wide { grid-column: span 2; }
+  @media (max-width: 1100px) { .panel, .panel--wide { grid-column: span 2; } }
+  @media (max-width: 640px) { .panel, .panel--wide { grid-column: span 1; } }
+
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .panel-title { font-size: 1rem; font-weight: 700; color: #111827; }
+  .panel-link { font-size: 0.8rem; color: #6c47ff; text-decoration: none; font-weight: 600; }
+  .panel-link:hover { text-decoration: underline; }
+
+  .badge-live { background: rgba(16,185,129,0.1); color: #10b981; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 100px; }
+  .campaign-bar-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; margin-bottom: 0.5rem; }
+  .progress-track { height: 10px; background: #f3f4f6; border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #6c47ff, #9b6dff); border-radius: 100px; transition: width 0.3s; }
+  .campaign-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.25rem; }
+  @media (max-width: 640px) { .campaign-meta { grid-template-columns: repeat(2, 1fr); } }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-key { font-size: 0.7rem; color: #9ca3af; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .meta-val { font-size: 0.9rem; font-weight: 700; color: #111827; }
+  .badge-status { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 100px; }
+  .panel-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+  .btn-primary-sm { background: linear-gradient(135deg,#6c47ff,#9b6dff); color: #fff; padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+  .btn-ghost-sm { background: #f3f4f6; color: #374151; border: none; padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  .btn-ghost-sm:hover { background: #e5e7eb; }
+
+  /* Replies */
+  .reply-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .reply-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem; border-radius: 10px; transition: background 0.15s; }
+  .reply-item:hover { background: #f9fafb; }
+  .reply-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#6c47ff,#9b6dff); color: white; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .reply-body { flex: 1; min-width: 0; }
+  .reply-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+  .reply-co { font-size: 0.85rem; font-weight: 700; color: #111827; }
+  .reply-hot { font-size: 0.7rem; background: rgba(255,100,50,0.1); color: #f97316; padding: 0.1rem 0.5rem; border-radius: 100px; font-weight: 600; }
+  .reply-time { font-size: 0.7rem; color: #9ca3af; margin-left: auto; }
+  .reply-msg { font-size: 0.8rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Quick actions */
+  .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .qa-btn { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; text-decoration: none; color: #374151; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
+  .qa-btn:hover { background: rgba(108,71,255,0.05); border-color: #6c47ff; color: #6c47ff; }
+  .qa-icon { font-size: 1.2rem; }
+</style>
