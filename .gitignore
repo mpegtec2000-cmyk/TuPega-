@@ -1,0 +1,22 @@
+# Entorno - NUNCA subir
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+.output/
+
+# Dependencies
+node_modules/
+
+# Astro
+.astro/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
