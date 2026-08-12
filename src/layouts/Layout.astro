@@ -1,0 +1,78 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Tu Pega! — Automatiza tu búsqueda laboral",
+  description = "Plataforma SaaS para automatizar campañas de postulación laboral masiva con personalización inteligente.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --bg-900: #0a0a0f;
+        --bg-800: #0f0f1a;
+        --bg-700: #14141f;
+        --bg-600: #1a1a2e;
+        --surface: #1e1e30;
+        --surface-2: #252538;
+        --border: rgba(255,255,255,0.07);
+        --border-bright: rgba(255,255,255,0.15);
+
+        --accent: #6c47ff;
+        --accent-2: #9b6dff;
+        --accent-glow: rgba(108, 71, 255, 0.4);
+        --teal: #00d4aa;
+        --teal-glow: rgba(0, 212, 170, 0.3);
+        --pink: #ff4d8d;
+
+        --text-primary: #f0f0ff;
+        --text-secondary: #9090b0;
+        --text-muted: #5a5a7a;
+
+        --radius: 12px;
+        --radius-lg: 20px;
+        --radius-xl: 28px;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg-900);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      ::selection { background: var(--accent); color: white; }
+
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--bg-900); }
+      ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
