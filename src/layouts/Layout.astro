@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-  title = "Tu Pega! — Automatiza tu búsqueda laboral",
-  description = "Plataforma SaaS para automatizar campañas de postulación laboral masiva con personalización inteligente.",
+  title = "TuPega — Automatiza tu búsqueda laboral con IA",
+  description = "La plataforma SaaS para automatizar postulaciones laborales con personalización inteligente, filtros anti-spam y análisis en tiempo real.",
 } = Astro.props;
 ---
 
@@ -17,62 +17,127 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#080614" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
     <style is:global>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       :root {
-        --bg-900: #0a0a0f;
-        --bg-800: #0f0f1a;
-        --bg-700: #14141f;
-        --bg-600: #1a1a2e;
-        --surface: #1e1e30;
-        --surface-2: #252538;
-        --border: rgba(255,255,255,0.07);
-        --border-bright: rgba(255,255,255,0.15);
+        /* Surface tokens */
+        --color-bg:        #080614;
+        --color-bg-2:      #0D0B1E;
+        --color-bg-3:      #141228;
+        --color-surface:   rgba(255,255,255,0.04);
+        --color-surface-2: rgba(255,255,255,0.07);
+        --color-surface-3: rgba(255,255,255,0.11);
 
-        --accent: #6c47ff;
-        --accent-2: #9b6dff;
-        --accent-glow: rgba(108, 71, 255, 0.4);
-        --teal: #00d4aa;
-        --teal-glow: rgba(0, 212, 170, 0.3);
-        --pink: #ff4d8d;
+        /* Border tokens */
+        --color-border:    rgba(255,255,255,0.07);
+        --color-border-2:  rgba(255,255,255,0.12);
+        --color-border-3:  rgba(255,255,255,0.20);
 
-        --text-primary: #f0f0ff;
-        --text-secondary: #9090b0;
-        --text-muted: #5a5a7a;
+        /* Brand tokens */
+        --color-primary:   #7C5CFC;
+        --color-primary-2: #A78BFA;
+        --color-primary-dim: rgba(124,92,252,0.18);
+        --color-secondary: #2DD4BF;
+        --color-secondary-dim: rgba(45,212,191,0.14);
+        --color-accent:    #FB7185;
 
-        --radius: 12px;
-        --radius-lg: 20px;
-        --radius-xl: 28px;
+        /* Text tokens */
+        --color-text:      #F0EEFF;
+        --color-text-2:    #9D9AB8;
+        --color-text-3:    #5C5878;
+
+        /* Glow tokens */
+        --glow-primary:    0 0 80px rgba(124,92,252,0.35);
+        --glow-secondary:  0 0 60px rgba(45,212,191,0.25);
+
+        /* Radius tokens - grid de 8px */
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --radius-xl: 32px;
+        --radius-2xl: 48px;
+
+        /* Spacing tokens - grid de 8px */
+        --space-1: 8px;
+        --space-2: 16px;
+        --space-3: 24px;
+        --space-4: 32px;
+        --space-5: 40px;
+        --space-6: 48px;
+        --space-8: 64px;
+        --space-10: 80px;
+        --space-12: 96px;
+        --space-16: 128px;
+
+        /* Easing tokens */
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-in:  cubic-bezier(0.4, 0, 1, 1);
       }
 
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
       body {
-        font-family: 'Inter', sans-serif;
-        background: var(--bg-900);
-        color: var(--text-primary);
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
         line-height: 1.6;
+        font-size: 16px;
         overflow-x: hidden;
       }
 
-      ::selection { background: var(--accent); color: white; }
+      h1, h2, h3, h4 {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: var(--color-text);
+      }
 
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: var(--bg-900); }
-      ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+      img { display: block; max-width: 100%; }
+      a { color: inherit; text-decoration: none; }
+
+      ::selection { background: var(--color-primary); color: #fff; }
+
+      ::-webkit-scrollbar { width: 5px; }
+      ::-webkit-scrollbar-track { background: var(--color-bg); }
+      ::-webkit-scrollbar-thumb { background: var(--color-bg-3); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+      /* Scroll-reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+      }
+      .reveal.in { opacity: 1; transform: translateY(0); }
+      .reveal-d1 { transition-delay: 0.08s; }
+      .reveal-d2 { transition-delay: 0.16s; }
+      .reveal-d3 { transition-delay: 0.24s; }
+      .reveal-d4 { transition-delay: 0.32s; }
+
+      /* Prefers reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
     </style>
   </head>
   <body>
     <slot />
+    <script>
+      const obs = new IntersectionObserver(
+        (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }),
+        { threshold: 0.1 }
+      );
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
   </body>
 </html>

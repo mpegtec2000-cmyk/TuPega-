@@ -1,0 +1,24 @@
+---
+import AuthForm from '../components/AuthForm.tsx';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Acceso — TuPega</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+      body { 
+        margin: 0; 
+        padding: 0; 
+        background: #0A0818; 
+      }
+    </style>
+  </head>
+  <body>
+    <AuthForm client:load />
+  </body>
+</html>

@@ -3,201 +3,351 @@ import Layout from '../../layouts/Layout.astro';
 import DashboardShell from '../../components/DashboardShell.tsx';
 
 const pathname = Astro.url.pathname;
+
+const stats = [
+  {
+    label: "Correos enviados",
+    value: "2,761",
+    delta: "+12% esta semana",
+    up: true,
+    color: "violet",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+  },
+  {
+    label: "Respuestas recibidas",
+    value: "84",
+    delta: "+8 nuevas hoy",
+    up: true,
+    color: "teal",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+  },
+  {
+    label: "Rebotes",
+    value: "127",
+    delta: "4.6% de rebote",
+    up: false,
+    color: "orange",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  },
+  {
+    label: "Tasa de entrega",
+    value: "95.4%",
+    delta: "+0.8% vs ayer",
+    up: true,
+    color: "green",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  },
+];
+
+const replies = [
+  { company: "Minera Los Pelambres", initials: "ML", msg: "Gracias por tu postulación, nos pondremos en contacto próximamente.", time: "hace 2h", hot: true },
+  { company: "Codelco División Andina", initials: "CA", msg: "Hemos recibido tu CV y lo evaluaremos próximamente.", time: "hace 5h", hot: false },
+  { company: "BHP Chile", initials: "BH", msg: "Estamos interesados en tu perfil, ¿podemos agendar una llamada?", time: "ayer", hot: true },
+  { company: "Anglo American Sur", initials: "AA", msg: "Tu experiencia es de interés para nuestra organización.", time: "ayer", hot: false },
+];
 ---
 
-<Layout title="Dashboard — Tu Pega!">
-  <DashboardShell
-    client:load
-    pathname={pathname}
-    pageTitle="Dashboard"
-    pageSubtitle="Resumen general de tu campaña en tiempo real."
-  >
-    <div class="db-grid">
+<Layout title="Dashboard — TuPega">
+  <DashboardShell client:load pathname={pathname} pageTitle="Dashboard" pageSubtitle="Resumen general de tu campaña en tiempo real.">
+    <div class="db-root">
+
       <!-- STAT CARDS -->
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--purple">✉️</div>
-        <div>
-          <p class="stat-label">Correos enviados</p>
-          <p class="stat-val">2,761</p>
-          <p class="stat-delta stat-delta--up">↑ 12% esta semana</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--teal">💬</div>
-        <div>
-          <p class="stat-label">Respuestas recibidas</p>
-          <p class="stat-val">84</p>
-          <p class="stat-delta stat-delta--up">↑ 8 nuevas hoy</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--orange">⚠️</div>
-        <div>
-          <p class="stat-label">Rebotes</p>
-          <p class="stat-val">127</p>
-          <p class="stat-delta stat-delta--down">4.6% de rebote</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--green">✅</div>
-        <div>
-          <p class="stat-label">Tasa de entrega</p>
-          <p class="stat-val">95.4%</p>
-          <p class="stat-delta stat-delta--up">↑ 0.8% vs ayer</p>
-        </div>
-      </div>
-
-      <!-- CAMPAIGN STATUS -->
-      <div class="panel panel--wide">
-        <div class="panel-header">
-          <h2 class="panel-title">Campaña activa</h2>
-          <span class="badge-live">● En vivo</span>
-        </div>
-        <div class="campaign-bar-wrap">
-          <div class="campaign-bar-labels">
-            <span>Enviados</span><span>2,761 / 3,000</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 92%"></div>
-          </div>
-        </div>
-        <div class="campaign-meta">
-          <div class="meta-item"><span class="meta-key">Inicio</span><span class="meta-val">8 Ago 2026</span></div>
-          <div class="meta-item"><span class="meta-key">Límite diario</span><span class="meta-val">100 correos</span></div>
-          <div class="meta-item"><span class="meta-key">Pendientes</span><span class="meta-val">239</span></div>
-          <div class="meta-item"><span class="meta-key">Estado</span><span class="badge-status">Activa</span></div>
-        </div>
-        <div class="panel-actions">
-          <a href="/dashboard/campanas" class="btn-primary-sm">Ver campaña completa →</a>
-          <button class="btn-ghost-sm">Pausar envío</button>
-        </div>
-      </div>
-
-      <!-- RECENT REPLIES -->
-      <div class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">Respuestas recientes</h2>
-          <a href="/dashboard/respuestas" class="panel-link">Ver todas →</a>
-        </div>
-        <div class="reply-list">
-          {[
-            { co: "Minera Los Pelambres", msg: "Gracias por tu postulación, nos pondremos en contacto...", time: "hace 2h", hot: true },
-            { co: "Codelco División Andina", msg: "Hemos recibido tu CV y lo evaluaremos próximamente.", time: "hace 5h", hot: false },
-            { co: "BHP Chile", msg: "Estamos interesados en tu perfil, ¿podemos agendar una llamada?", time: "ayer", hot: true },
-            { co: "Anglo American Sur", msg: "Tu experiencia es de interés para nuestra organización.", time: "ayer", hot: false },
-          ].map((r) => (
-            <div class="reply-item">
-              <div class="reply-avatar">{r.co[0]}</div>
-              <div class="reply-body">
-                <div class="reply-top">
-                  <span class="reply-co">{r.co}</span>
-                  {r.hot && <span class="reply-hot">🔥 Caliente</span>}
-                  <span class="reply-time">{r.time}</span>
-                </div>
-                <p class="reply-msg">{r.msg}</p>
-              </div>
+      <div class="stat-grid">
+        {stats.map((s) => (
+          <div class={`stat-card stat-card--${s.color}`}>
+            <div class={`stat-card__icon stat-icon--${s.color}`} set:html={s.icon} />
+            <div class="stat-card__body">
+              <p class="stat-card__label">{s.label}</p>
+              <p class="stat-card__value">{s.value}</p>
+              <p class={`stat-card__delta ${s.up ? "delta--up" : "delta--warn"}`}>{s.delta}</p>
             </div>
-          ))}
+          </div>
+        ))}
+      </div>
+
+      <!-- MIDDLE ROW -->
+      <div class="mid-grid">
+
+        <!-- ACTIVE CAMPAIGN -->
+        <div class="panel">
+          <div class="panel__header">
+            <h2 class="panel__title">Campaña activa</h2>
+            <span class="badge-live">
+              <span class="live-dot"></span>En vivo
+            </span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-labels">
+              <span>Enviados</span><span class="progress-count">2,761 / 3,000</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuenow={92} aria-valuemin={0} aria-valuemax={100} aria-label="Progreso de campaña">
+              <div class="progress-fill" style="width:92%"></div>
+            </div>
+          </div>
+
+          <div class="campaign-meta">
+            <div class="meta-cell"><span class="meta-key">Inicio</span><span class="meta-val">8 Ago 2026</span></div>
+            <div class="meta-cell"><span class="meta-key">Límite diario</span><span class="meta-val">350 correos</span></div>
+            <div class="meta-cell"><span class="meta-key">Pendientes</span><span class="meta-val">239</span></div>
+            <div class="meta-cell"><span class="meta-key">Estado</span><span class="badge-active">Activa</span></div>
+          </div>
+
+          <div class="panel__actions">
+            <a href="/dashboard/campanas" class="btn-primary-sm">Ver campaña completa</a>
+            <button class="btn-ghost-sm">Pausar envío</button>
+          </div>
+        </div>
+
+        <!-- RECENT REPLIES -->
+        <div class="panel">
+          <div class="panel__header">
+            <h2 class="panel__title">Respuestas recientes</h2>
+            <a href="/dashboard/respuestas" class="panel__link">Ver todas</a>
+          </div>
+          <ul class="reply-list">
+            {replies.map((r) => (
+              <li class="reply-item">
+                <div class="reply-avatar">{r.initials}</div>
+                <div class="reply-body">
+                  <div class="reply-row">
+                    <span class="reply-company">{r.company}</span>
+                    {r.hot && (
+                      <span class="badge-hot">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+                        Activo
+                      </span>
+                    )}
+                    <span class="reply-time">{r.time}</span>
+                  </div>
+                  <p class="reply-msg">{r.msg}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
       <!-- QUICK ACTIONS -->
       <div class="panel">
-        <h2 class="panel-title" style="margin-bottom:1rem">Acciones rápidas</h2>
-        <div class="quick-actions">
-          <a href="/dashboard/campanas" class="qa-btn">
-            <span class="qa-icon">🚀</span>
+        <h2 class="panel__title" style="margin-bottom:20px">Acciones rápidas</h2>
+        <div class="actions-grid">
+          <a href="/dashboard/campanas" class="action-card">
+            <div class="action-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
             <span>Nueva campaña</span>
           </a>
-          <a href="/dashboard/contactos" class="qa-btn">
-            <span class="qa-icon">➕</span>
+          <a href="/dashboard/contactos" class="action-card">
+            <div class="action-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
             <span>Importar contactos</span>
           </a>
-          <a href="/dashboard/enviados" class="qa-btn">
-            <span class="qa-icon">📊</span>
+          <a href="/dashboard/enviados" class="action-card">
+            <div class="action-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
             <span>Ver estadísticas</span>
           </a>
-          <a href="/dashboard/configuracion" class="qa-btn">
-            <span class="qa-icon">⚙️</span>
+          <a href="/dashboard/configuracion" class="action-card">
+            <div class="action-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
             <span>Configurar cuenta</span>
           </a>
         </div>
       </div>
+
     </div>
   </DashboardShell>
 </Layout>
 
 <style>
-  .db-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-  @media (max-width: 1100px) { .db-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .db-grid { grid-template-columns: 1fr; } }
+  /* ── ROOT ─────────────────────────────────────── */
+  .db-root { display: flex; flex-direction: column; gap: 24px; }
 
-  /* Stat cards */
+  /* ── TOKENS (scoped) ──────────────────────────── */
+  .db-root {
+    --surface:  rgba(255,255,255,0.04);
+    --border:   rgba(255,255,255,0.07);
+    --border-2: rgba(255,255,255,0.12);
+    --violet:   #7C5CFC;
+    --teal:     #2DD4BF;
+    --text-1:   #F0EEFF;
+    --text-2:   #9D9AB8;
+    --text-3:   #5C5878;
+    --ease:     cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* ── STAT GRID ────────────────────────────────── */
+  .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  @media (max-width: 1100px) { .stat-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 600px)  { .stat-grid { grid-template-columns: 1fr; } }
+
   .stat-card {
-    background: #fff; border: 1px solid #e5e7eb; border-radius: 14px;
-    padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem;
-    transition: box-shadow 0.2s;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
   }
-  .stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-  .stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-  .stat-icon--purple { background: rgba(108,71,255,0.1); }
-  .stat-icon--teal { background: rgba(0,212,170,0.1); }
-  .stat-icon--orange { background: rgba(255,100,50,0.1); }
-  .stat-icon--green { background: rgba(16,185,129,0.1); }
-  .stat-label { font-size: 0.75rem; color: #6b7280; font-weight: 500; }
-  .stat-val { font-size: 1.75rem; font-weight: 800; color: #111827; font-family: 'Space Grotesk', sans-serif; line-height: 1.2; }
-  .stat-delta { font-size: 0.75rem; margin-top: 0.2rem; }
-  .stat-delta--up { color: #10b981; }
-  .stat-delta--down { color: #f59e0b; }
+  .stat-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-2px); }
 
-  /* Panels */
+  .stat-card__icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .stat-icon--violet { background: rgba(124,92,252,0.15); color: #A78BFA; }
+  .stat-icon--teal   { background: rgba(45,212,191,0.12); color: #2DD4BF; }
+  .stat-icon--orange { background: rgba(251,146,60,0.12); color: #FB923C; }
+  .stat-icon--green  { background: rgba(52,211,153,0.12); color: #34D399; }
+
+  .stat-card__label { font-size: 0.75rem; color: var(--text-2); font-weight: 500; margin-bottom: 4px; }
+  .stat-card__value { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; line-height: 1.1; color: var(--text-1); }
+  .stat-card__delta { font-size: 0.75rem; margin-top: 4px; }
+  .delta--up   { color: #34D399; }
+  .delta--warn { color: #FB923C; }
+
+  /* ── MIDDLE GRID ──────────────────────────────── */
+  .mid-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 900px) { .mid-grid { grid-template-columns: 1fr; } }
+
+  /* ── PANELS ───────────────────────────────────── */
   .panel {
-    grid-column: span 2; background: #fff; border: 1px solid #e5e7eb;
-    border-radius: 14px; padding: 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 24px;
+    transition: border-color 0.2s;
   }
-  .panel--wide { grid-column: span 2; }
-  @media (max-width: 1100px) { .panel, .panel--wide { grid-column: span 2; } }
-  @media (max-width: 640px) { .panel, .panel--wide { grid-column: span 1; } }
+  .panel:hover { border-color: rgba(255,255,255,0.12); }
+  .panel__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .panel__title { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-1); }
+  .panel__link { font-size: 0.8rem; color: var(--violet); font-weight: 600; text-decoration: none; transition: opacity 0.15s; }
+  .panel__link:hover { opacity: 0.8; }
+  .panel__actions { display: flex; gap: 10px; margin-top: 20px; }
 
-  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-  .panel-title { font-size: 1rem; font-weight: 700; color: #111827; }
-  .panel-link { font-size: 0.8rem; color: #6c47ff; text-decoration: none; font-weight: 600; }
-  .panel-link:hover { text-decoration: underline; }
+  /* ── BADGES ───────────────────────────────────── */
+  .badge-live {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(52,211,153,0.12);
+    color: #34D399;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 4px 12px; border-radius: 999px;
+    border: 1px solid rgba(52,211,153,0.2);
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #34D399;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .badge-active {
+    display: inline-block;
+    background: rgba(52,211,153,0.12); color: #34D399;
+    font-size: 0.72rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 999px;
+    border: 1px solid rgba(52,211,153,0.2);
+  }
+  .badge-hot {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(251,146,60,0.12); color: #FB923C;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 999px;
+    border: 1px solid rgba(251,146,60,0.2);
+  }
 
-  .badge-live { background: rgba(16,185,129,0.1); color: #10b981; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 100px; }
-  .campaign-bar-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; margin-bottom: 0.5rem; }
-  .progress-track { height: 10px; background: #f3f4f6; border-radius: 100px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, #6c47ff, #9b6dff); border-radius: 100px; transition: width 0.3s; }
-  .campaign-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.25rem; }
-  @media (max-width: 640px) { .campaign-meta { grid-template-columns: repeat(2, 1fr); } }
-  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
-  .meta-key { font-size: 0.7rem; color: #9ca3af; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-  .meta-val { font-size: 0.9rem; font-weight: 700; color: #111827; }
-  .badge-status { display: inline-block; background: rgba(16,185,129,0.1); color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 100px; }
-  .panel-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-  .btn-primary-sm { background: linear-gradient(135deg,#6c47ff,#9b6dff); color: #fff; padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .btn-ghost-sm { background: #f3f4f6; color: #374151; border: none; padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-  .btn-ghost-sm:hover { background: #e5e7eb; }
+  /* ── PROGRESS ─────────────────────────────────── */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-2); margin-bottom: 8px; }
+  .progress-count { font-weight: 600; color: var(--text-1); }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, var(--violet), #A78BFA);
+    transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
 
-  /* Replies */
-  .reply-list { display: flex; flex-direction: column; gap: 0.75rem; }
-  .reply-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem; border-radius: 10px; transition: background 0.15s; }
-  .reply-item:hover { background: #f9fafb; }
-  .reply-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#6c47ff,#9b6dff); color: white; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  /* ── CAMPAIGN META ────────────────────────────── */
+  .campaign-meta { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  @media (max-width: 640px) { .campaign-meta { grid-template-columns: repeat(2,1fr); } }
+  .meta-cell { display: flex; flex-direction: column; gap: 3px; }
+  .meta-key { font-size: 0.68rem; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+  .meta-val { font-size: 0.9rem; font-weight: 700; color: var(--text-1); }
+
+  /* ── BUTTONS ──────────────────────────────────── */
+  .btn-primary-sm {
+    background: var(--violet);
+    color: #fff; padding: 8px 18px;
+    border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: opacity 0.15s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .btn-primary-sm:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-ghost-sm {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-2); padding: 8px 18px;
+    border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-ghost-sm:hover { background: rgba(255,255,255,0.08); color: var(--text-1); }
+
+  /* ── REPLY LIST ───────────────────────────────── */
+  .reply-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .reply-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px; border-radius: 12px;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .reply-item:hover { background: rgba(255,255,255,0.04); }
+  .reply-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet), #A78BFA);
+    color: white; font-weight: 700; font-size: 0.75rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-family: 'Space Grotesk', sans-serif;
+  }
   .reply-body { flex: 1; min-width: 0; }
-  .reply-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
-  .reply-co { font-size: 0.85rem; font-weight: 700; color: #111827; }
-  .reply-hot { font-size: 0.7rem; background: rgba(255,100,50,0.1); color: #f97316; padding: 0.1rem 0.5rem; border-radius: 100px; font-weight: 600; }
-  .reply-time { font-size: 0.7rem; color: #9ca3af; margin-left: auto; }
-  .reply-msg { font-size: 0.8rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .reply-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .reply-company { font-size: 0.85rem; font-weight: 700; color: var(--text-1); }
+  .reply-time { font-size: 0.72rem; color: var(--text-3); margin-left: auto; white-space: nowrap; }
+  .reply-msg { font-size: 0.8rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* Quick actions */
-  .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-  .qa-btn { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; text-decoration: none; color: #374151; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
-  .qa-btn:hover { background: rgba(108,71,255,0.05); border-color: #6c47ff; color: #6c47ff; }
-  .qa-icon { font-size: 1.2rem; }
+  /* ── QUICK ACTIONS ────────────────────────────── */
+  .actions-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  @media (max-width: 900px) { .actions-grid { grid-template-columns: repeat(2,1fr); } }
+  .action-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 0.875rem; font-weight: 600;
+    transition: all 0.2s var(--ease);
+  }
+  .action-card:hover {
+    background: rgba(124,92,252,0.08);
+    border-color: rgba(124,92,252,0.3);
+    color: var(--text-1);
+    transform: translateY(-2px);
+  }
+  .action-card:hover .action-card__icon { background: rgba(124,92,252,0.2); color: #A78BFA; }
+  .action-card__icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    color: var(--text-2);
+  }
 </style>
